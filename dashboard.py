@@ -181,7 +181,8 @@ with col1:
     if operadores_sidebar == 'Todos':
         st.subheader('Total de Url por Operador')
     else:
-        st.subheader(f'Operador: :blue[{operadores_sidebar}] categorizou :red[{df_filtrado.loc[df_filtrado['Operador Responsável']==operadores_sidebar,'URL'].count()}] URL(s)')
+        st.subheader(f"Operador: :blue[{operadores_sidebar}] categorizou :red[{df_filtrado.loc[df_filtrado['Operador Responsável']==operadores_sidebar,'URL'].count()}] URL(s)")
+
     st.plotly_chart(fig_operador)
 # col1.plotly_chart(fig_operador)
 
