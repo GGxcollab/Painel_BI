@@ -1,10 +1,8 @@
 import streamlit as st
-from streamlit_image_comparison import image_comparison
 import pandas as pd
 import plotly.express as px
-import time
 from datetime import datetime
-import locale
+
 
 st.set_page_config(page_title="BBTS", page_icon=":shark",layout="wide")
 
@@ -29,11 +27,14 @@ st.set_page_config(page_title="BBTS", page_icon=":shark",layout="wide")
 # dec_31 = datetime.date(next_year, 12, 31)
 
 
-with st.container():
-    st.header(':blue[BBTS]: Categorização de URLs BB')
-    # st.subheader('Teste :blue[cool] :sunglasses:')
-    #st.subheader("Categorização de URL's BB")
-    st.divider()
+#with st.container():
+
+
+st.header(':blue[BBTS]: Categorização de URLs BB')
+# st.subheader('Teste :blue[cool] :sunglasses:')
+#st.subheader("Categorização de URL's BB")
+st.divider()
+
 #st.snow()
 
 #with st.container():
@@ -89,6 +90,8 @@ df["Mes/Ano"] = df["Data da solicitação"].apply(lambda x: str(x.month) +"-"+ s
 opcoes_mes_ano = ['Todos'] + df["Mes/Ano"].unique().tolist()
 opcoes_ano = ['Todos'] + [str(ano) for ano in anos_unicos]
 opcoes_status = ['Todos'] + df["Status"].unique().tolist()
+opcoes_meses = ['Todos'] + meses_unicos
+opcoes_operadores = ['Todos'] + df["Operador Responsável"].unique().tolist()
 
 # Sidebar para seleção do mês
 with st.sidebar:
@@ -97,7 +100,7 @@ with st.sidebar:
     # st.image(r"C:\Users\geovanne.sales\Downloads\Logomarca_Comercial\Azul - Principal\RGB\BancodoBrasil.Logomarca.VersãoPrincipal.Azul.RGB.png", use_column_width=True)
 
     #month = st.sidebar.selectbox(":black[Mês]", opcoes_mes_ano)
-    status = st.sidebar.selectbox("Escolha o Status", opcoes_status)
+    status = st.selectbox("Escolha o Status", opcoes_status)
 
 
     # Remover 'Todos' da lista antes de converter para inteiro
@@ -117,6 +120,9 @@ with st.sidebar:
         data_fim = pd.to_datetime(st.date_input("Escolha a data de término", min_value=jan_1, max_value=dec_31, value=dec_31, format="DD.MM.YYYY"))
     
     
+    operadores_sidebar = st.selectbox("Escolha o Operador", opcoes_operadores)
+    #meses_sidebar = st.multiselect('Escolha o Mês', opcoes_meses, defaut='Todos')
+    
 
 col1, col2 = st.columns(2)
 col3, col4, col5 = st.columns(3)
@@ -126,21 +132,46 @@ col3, col4, col5 = st.columns(3)
 # secondaryBackgroundColor="#f3ff80"
 # textColor="#f7f7f7"
 
-# Filtrar os dados pelo Status selecionado
-if status == 'Todos':
-    df_filtrado = df  # Se "Todos" for selecionado, não aplicar filtro
-    # df_filtrado
-else:
-    df_filtrado = df[df["Status"] == status]
-    # df_filtrado
+# # Filtrar os dados pelo Status selecionado
+# if status == 'Todos':
+#     df_filtrado = df  # Se "Todos" for selecionado, não aplicar filtro
+#     # df_filtrado
+# else:
+#     df_filtrado = df[df["Status"] == status]
+#     # df_filtrado
 
-# Filtrar o DataFrame com base no intervalo de datas
-if ano_escolhido_str == 'Todos':
-    df_filtrado = df
-    #df_filtrado
+# # Filtrar o DataFrame com base no intervalo de datas
+# if ano_escolhido_str == 'Todos':
+#     df_filtrado = df
+#     #df_filtrado
+# else:
+#     df_filtrado = df[(df["Data da solicitação"] >= data_inicio) & (df["Data da solicitação"] <= data_fim)]
+#     #df_filtrado
+
+
+# Filtrar os dados pelo mês selecionado e pelo Status
+#if status == 'Todos' and ano_escolhido_str == 'Todos' and meses_sidebar == 'Todos':
+if status == 'Todos' and ano_escolhido_str == 'Todos' and operadores_sidebar == 'Todos':
+        df_filtrado = df  # Se todos forem selecionados como "Todos", não aplicar filtro
+    # df_filtrado
 else:
-    df_filtrado = df[(df["Data da solicitação"] >= data_inicio) & (df["Data da solicitação"] <= data_fim)]
-    #df_filtrado
+    # # Aplicar filtros conforme necessário
+    # df_filtrado = df.copy()  # Crie uma cópia do DataFrame original
+
+    if status != 'Todos':
+        df_filtrado = df[df["Status"] == status]
+        
+
+    if ano_escolhido_str != 'Todos':
+        df_filtrado = df[(df["Data da solicitação"] >= data_inicio) & (df["Data da solicitação"] <= data_fim)]
+    # df_filtrado
+    # if meses_sidebar != 'Todos':
+    #     meses_filtrados = df["Data da solicitação"].dt.month_name(locale='pt_BR').str.capitalize()
+    #     df_filtrado = df[meses_filtrados.isin(meses_sidebar)]
+    if operadores_sidebar != 'Todos':
+        df_filtrado = df[df["Operador Responsável"] == operadores_sidebar]
+
+
 
 # d = st.date_input(
 #         "Select your vacation for next year",
@@ -175,17 +206,46 @@ fig_operador.update_yaxes(
 )
 
 with col1:
+    st.subheader(f'URL por Operador')
     st.plotly_chart(fig_operador)
 # col1.plotly_chart(fig_operador)
 
 
 
 
+soma_url = df_filtrado['URL'].count()
+volumeMensal_url = df_filtrado.groupby("Mes/Ano")["URL"].count()
+fig_volumeMensal_url = px.line(volumeMensal_url, x="URL", title='Volume Mensal Url', color_discrete_sequence=['red'])
 
+# Adicionar cor de fundo ao layout
+fig_volumeMensal_url.update_layout(
+    paper_bgcolor='#1C1C1C',  # Cor de fundo #3269D6
+    plot_bgcolor='#1C1C1C'  # Cor de fundo da área do gráfico
+)
+# Adicionar cor preta aos eixos
+fig_volumeMensal_url.update_xaxes(
+    linecolor='white',     # Cor da linha do eixo x
+    gridcolor='white',     # Cor das linhas da grade do eixo x
+    tickfont=dict(color='white'),  # Cor dos rótulos do eixo x
+    titlefont=dict(color='white')  # Cor do título do eixo x
+)
+fig_volumeMensal_url.update_yaxes(
+    linecolor='white',     # Cor da linha do eixo x
+    #gridcolor='white',     # Cor das linhas da grade do eixo x
+    tickfont=dict(color='white'),  # Cor dos rótulos do eixo y
+    titlefont=dict(color='white')  # Cor do título do eixo y
+)
 
-
-# with col2:
+with col2:
+    st.subheader(f'Total URL: :red[{soma_url}]')
+    #st.metric(label="Contador URL", value=soma_url)
+    st.plotly_chart(fig_volumeMensal_url)
     
+
+
+
+
+
 # with col3:
 # st.bar_chart(operadores_url, color="#ffaa0088")
 # Filtrar os dados pelo mês selecionado
@@ -218,7 +278,7 @@ with col1:
 #     df_filtrado
 
 # Filtrar os dados pelo mês selecionado e pelo Status
-if status == 'Todos' and ano_escolhido_str == 'Todos':
+if status == 'Todos' and ano_escolhido_str == 'Todos' :
     df_filtrado = df  # Se todos forem selecionados como "Todos", não aplicar filtro
     df_filtrado
 else:
@@ -227,8 +287,16 @@ else:
 
     if status != 'Todos':
         df_filtrado = df_filtrado[df_filtrado["Status"] == status]
-        
 
     if ano_escolhido_str != 'Todos':
         df_filtrado = df_filtrado[(df_filtrado["Data da solicitação"] >= data_inicio) & (df_filtrado["Data da solicitação"] <= data_fim)]
+    
+
+    # if meses_sidebar != 'Todos':
+    #     meses_filtrados = df_filtrado["Data da solicitação"].dt.month_name(locale='pt_BR').str.capitalize()
+    #     df_filtrado = df_filtrado[meses_filtrados.isin(meses_sidebar)]
+    if operadores_sidebar != 'Todos':
+        df_filtrado = df_filtrado[df_filtrado["Operador Responsável"] == operadores_sidebar]
+    
     df_filtrado
+        
