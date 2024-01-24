@@ -4,27 +4,7 @@ import plotly.express as px
 from datetime import datetime
 
 
-st.set_page_config(page_title="BBTS", page_icon=":shark",layout="wide")
-
-
-
-# # Adicione um plano de fundo personalizado usando CSS
-# st.markdown(
-#     """
-#     <style>
-#         body {
-#             background-color: #0074cc;  /* Substitua pela cor desejada em formato hexadecimal */
-#             color: white;  /* Cor do texto no corpo */
-#         }
-#     </style>
-#     """,
-#     unsafe_allow_html=True
-# )
-
-# today = datetime.datetime.now()
-# next_year = today.year + 1
-# jan_1 = datetime.date(next_year, 1, 1)
-# dec_31 = datetime.date(next_year, 12, 31)
+st.set_page_config(page_title="BBTS", page_icon="BancodoBrasil.Logomarca.VersãoPrincipal.Amarelo.RGB.png",layout="wide")
 
 
 #with st.container():
@@ -120,7 +100,7 @@ with st.sidebar:
         data_fim = pd.to_datetime(st.date_input("Escolha a data de término", min_value=jan_1, max_value=dec_31, value=dec_31, format="DD.MM.YYYY"))
     
     
-    operadores_sidebar = st.selectbox("Escolha o Operador", opcoes_operadores)
+    operadores_sidebar = st.selectbox("Escolha o Operador Responsável", opcoes_operadores)
     #meses_sidebar = st.multiselect('Escolha o Mês', opcoes_meses, defaut='Todos')
     
 
@@ -173,14 +153,6 @@ else:
 
 
 
-# d = st.date_input(
-#         "Select your vacation for next year",
-#         (jan_1, datetime.date(next_year, 1, 7)),
-#         jan_1,
-#         dec_31,
-#         format="MM.DD.YYYY",
-#     )
-# d
 
 operadores_url= df_filtrado.groupby("Operador Responsável")['URL'].count()
 fig_operador = px.bar(operadores_url, x="URL",
@@ -206,7 +178,10 @@ fig_operador.update_yaxes(
 )
 
 with col1:
-    st.subheader(f'URL por Operador')
+    if operadores_sidebar == 'Todos':
+        st.subheader('Total de Url por Operador')
+    else:
+        st.subheader(f'Operador: :blue[{operadores_sidebar}] categorizou :red[{df_filtrado.loc[df_filtrado['Operador Responsável']==operadores_sidebar,'URL'].count()}] URL(s)')
     st.plotly_chart(fig_operador)
 # col1.plotly_chart(fig_operador)
 
@@ -278,7 +253,7 @@ with col2:
 #     df_filtrado
 
 # Filtrar os dados pelo mês selecionado e pelo Status
-if status == 'Todos' and ano_escolhido_str == 'Todos' :
+if status == 'Todos' and ano_escolhido_str == 'Todos' and operadores_sidebar == 'Todos':
     df_filtrado = df  # Se todos forem selecionados como "Todos", não aplicar filtro
     df_filtrado
 else:
