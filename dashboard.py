@@ -8,14 +8,17 @@ import locale
 st.set_page_config(page_title="BBTS", page_icon="BancodoBrasil.Logomarca.VersãoPrincipal.Amarelo.RGB.png",layout="wide")
 
 
-#with st.container():
+# #with st.container():
+if st.button("Home"):
+    st.switch_page("dashboard.py")
+if st.button("Page 1"):
+    st.switch_page("pages/page_1.py")
 
 
 st.header(':blue[BBTS]: Categorização de URLs BB')
 # st.subheader('Teste :blue[cool] :sunglasses:')
 #st.subheader("Categorização de URL's BB")
 st.divider()
-
 
 
 
