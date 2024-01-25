@@ -23,7 +23,7 @@ st.divider()
 
 @st.cache_data
 def carregar_dados():
-    tabela =  pd.read_csv("Report-17-01-2024_15-00-17.csv", sep=',')
+    tabela =  pd.read_csv("Report-25-01-2024_15-32-34.csv", sep=',')
     return tabela
 
 df = carregar_dados()
@@ -92,7 +92,7 @@ col3, col4, col5 = st.columns(3)
 
 # [theme]
 # backgroundColor="#1631bb"
-# secondaryBackgroundColor="#f3ff80"
+# secondaryBackgroundColor="#272726"
 # textColor="#f7f7f7"
 
 # # Filtrar os dados pelo Status selecionado
@@ -174,7 +174,7 @@ with col1:
 
 soma_url = df_filtrado['URL'].count()
 volumeMensal_url = df_filtrado.groupby("Mes/Ano")["URL"].count()
-fig_volumeMensal_url = px.line(volumeMensal_url, x="URL", title='Volume Mensal Url', color_discrete_sequence=['red'])
+fig_volumeMensal_url = px.bar(volumeMensal_url, x="URL", title='Volume Mensal Url', color_discrete_sequence=['red'])
 
 # Adicionar cor de fundo ao layout
 fig_volumeMensal_url.update_layout(
