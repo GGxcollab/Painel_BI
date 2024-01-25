@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 from datetime import datetime
+import locale
 
 
 st.set_page_config(page_title="BBTS", page_icon="BancodoBrasil.Logomarca.VersãoPrincipal.Amarelo.RGB.png",layout="wide")
@@ -27,6 +28,10 @@ def carregar_dados():
 
 df = carregar_dados()
 
+# try:
+#     locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
+# except locale.Error:
+#     print("Locale 'pt_BR' not available, using default locale.")
 
 #df
 df["Data da solicitação"] = pd.to_datetime(df["Data da solicitação"], format="%d/%m/%Y")
@@ -34,7 +39,7 @@ df = df.sort_values("Data da solicitação")
 
 # Extrair valores únicos de ano e mês (por extenso)
 anos_unicos = df['Data da solicitação'].dt.year.unique().tolist()
-meses_unicos = df['Data da solicitação'].dt.month_name(locale='pt_BR').str.capitalize().unique().tolist()
+#meses_unicos = df['Data da solicitação'].dt.month_name(locale='pt_BR').str.capitalize().unique().tolist()
 
 
 df["Mes/Ano"] = df["Data da solicitação"].apply(lambda x: str(x.month) +"-"+ str(x.year))
@@ -48,7 +53,7 @@ df["Mes/Ano"] = df["Data da solicitação"].apply(lambda x: str(x.month) +"-"+ s
 opcoes_mes_ano = ['Todos'] + df["Mes/Ano"].unique().tolist()
 opcoes_ano = ['Todos'] + [str(ano) for ano in anos_unicos]
 opcoes_status = ['Todos'] + df["Status"].unique().tolist()
-opcoes_meses = ['Todos'] + meses_unicos
+#opcoes_meses = ['Todos'] + meses_unicos
 opcoes_operadores = ['Todos'] + df["Operador Responsável"].unique().tolist()
 
 # Sidebar para seleção do mês
