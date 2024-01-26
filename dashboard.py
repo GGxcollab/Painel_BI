@@ -91,7 +91,7 @@ with st.sidebar:
     
 
 col1, col2 = st.columns(2)
-col3, col4, col5 = st.columns(3)
+# col3, col4, col5 = st.columns(3)
 
 # [theme]
 # backgroundColor="#1631bb"
