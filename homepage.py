@@ -26,9 +26,9 @@ page_1 = st.button("BBTS Categorização URL(s)")
 
 # #with st.container():
 if homepage:
-    st.switch_page("dashboard.py")
+    st.switch_page("homepage.py")
 if page_1:
-    st.switch_page("pages/page_1.py")
+    st.switch_page("pages/Categorização_Url.py")
 
     
 # st.header(':blue[BBTS]: Categorização de URLs BB')

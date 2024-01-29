@@ -10,9 +10,9 @@ st.set_page_config(page_title="BBTS", page_icon="BancodoBrasil.Logomarca.Versão
 
 # #with st.container():
 if st.button("Home"):
-    st.switch_page("dashboard.py")
+    st.switch_page("homepage.py")
 if st.button("BBTS Categorização URL(s)"):
-    st.switch_page("pages/page_1.py")
+    st.switch_page("pages/Categorização_Url.py")
 
 
 st.header(':blue[BBTS]: Categorização de URLs BB')
