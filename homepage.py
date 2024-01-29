@@ -21,12 +21,12 @@ st.title(':blue[Navegue] pelo nossos DASHBOARDS!')
 #st.subheader("Categorização de URL's BB")
 st.divider()
 
-homepage = st.button("Home")
+# homepage = st.button("Home")
 page_1 = st.button("BBTS Categorização URL(s)")
 
 # #with st.container():
-if homepage:
-    st.switch_page("homepage.py")
+# if homepage:
+#     st.switch_page("homepage.py")
 if page_1:
     st.switch_page("pages/Categorização_Url.py")
 
