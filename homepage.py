@@ -4,6 +4,10 @@ import plotly.express as px
 from datetime import datetime
 import locale
 
+# [theme]
+# base="dark"
+# secondaryBackgroundColor="#222d94"
+
 
 st.set_page_config(page_title="BBTS", page_icon="BancodoBrasil.Logomarca.VersãoPrincipal.Amarelo.RGB.png",layout="wide")
 
