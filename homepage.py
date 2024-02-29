@@ -16,23 +16,37 @@ with col1:
     st.image("BancodoBrasil.Logomarca.VersãoPrincipal.Amarelo.RGB.png", use_column_width=False,  output_format="PNG")
 
 with col2:
-    st.markdown("<p style='color: yellow; font-size: 70px;'>Gerando valor e <br> eficiência para nossos <br> clientes por meio de soluções inteligentes.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color: yellow; font-size: 60px;'>Gerando valor e <br> eficiência para nossos <br> clientes por meio de soluções inteligentes.</p>", unsafe_allow_html=True)
 
 st.divider()
 
-st.title(':blue[Navegue] pelo nossos DASHBOARDS!')
+st.title(':blue[Navegue] pelos nossos DASHBOARDS!')
 # st.subheader('Teste :blue[cool] :sunglasses:')
 #st.subheader("Categorização de URL's BB")
 st.divider()
 
 # homepage = st.button("Home")
 page_1 = st.button("BBTS Categorização URL(s)")
+page_2 = st.button("DDOS")
+page_3= st.link_button("BBAmericas_Painel", "https://app.powerbi.com/links/7mhiLo4N5V?ctid=ffc0be44-315f-4479-b12f-56afe6ededd6&pbi_source=linkShare")
+page_4= st.link_button("BBTS_Painel", "https://app.powerbi.com/links/WooPu4Kw3v?ctid=ffc0be44-315f-4479-b12f-56afe6ededd6&pbi_source=linkShare")
 
 # #with st.container():
 # if homepage:
 #     st.switch_page("homepage.py")
+
+#st.page_link("your_app.py", label="Home", icon="🏠")
+# st.page_link("pages/Categorização_Url.py", label="BBTS Categorização URL(s)")
+# st.page_link("pages/DDOS.py", label="DDOS")
+# st.page_link("https://app.powerbi.com/links/7mhiLo4N5V?ctid=ffc0be44-315f-4479-b12f-56afe6ededd6&pbi_source=linkShare", label="BBAmericas_Painel")
+# st.page_link("https://app.powerbi.com/links/WooPu4Kw3v?ctid=ffc0be44-315f-4479-b12f-56afe6ededd6&pbi_source=linkShare", label="BBTS_Painel")
+
+
 if page_1:
     st.switch_page("pages/Categorização_Url.py")
+if page_2:
+    st.switch_page("pages/DDOS.py")
+
 
     
 # st.header(':blue[BBTS]: Categorização de URLs BB')
