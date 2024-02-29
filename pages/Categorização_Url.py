@@ -11,8 +11,10 @@ st.set_page_config(page_title="BBTS", page_icon="BancodoBrasil.Logomarca.Versão
 # #with st.container():
 if st.button("Home"):
     st.switch_page("homepage.py")
-if st.button("BBTS Categorização URL(s)"):
-    st.switch_page("pages/Categorização_Url.py")
+if st.button("DDOS"):
+    st.switch_page("pages/DDOS.py")
+link_BBAmericas = st.link_button("BBAmericas_Painel", "https://app.powerbi.com/links/7mhiLo4N5V?ctid=ffc0be44-315f-4479-b12f-56afe6ededd6&pbi_source=linkShare")
+    
 
 
 st.header(':blue[BBTS]: Categorização de URLs BB')
